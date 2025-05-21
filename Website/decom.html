@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Курсы</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #020312;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #0d050e;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 40px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+
+    .save {
+      background-color: #f0c14b;
+      color: #333;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Все курсы</h1>
+  <a href="saved.html" style="display:block; text-align:center; margin-bottom: 20px; font-weight: bold; color: #4CAF50;"> Перейти к сохранённым курсам</a>
+
+  <div class="container" id="courseContainer"></div>
+  <div class="toast" id="toast">Сохранено</div>
+
+  <script>
+    const courseContainer = document.getElementById('courseContainer');
+    const toast = document.getElementById('toast');
+
+    // Массив курсов Business & Entrepreneurship
+    const coursesBusiness = [
+      {
+        title: "Startup Fundamentals",
+        description: "Learn how to launch and grow your own startup."
+      },
+      {
+        title: "Marketing Strategies",
+        description: "Develop effective marketing plans to reach your target audience."
+      },
+      {
+        title: "Financial Planning for Entrepreneurs",
+        description: "Master budgeting, forecasting, and managing business finances."
+      },
+      {
+        title: "Leadership and Management",
+        description: "Improve your skills in leading teams and managing projects."
+      },
+      {
+        title: "Sales Techniques",
+        description: "Learn proven sales methods to close deals and increase revenue."
+      },
+      {
+        title: "Business Model Innovation",
+        description: "Discover how to create innovative business models that disrupt markets."
+      },
+      {
+        title: "Negotiation Skills",
+        description: "Build confidence and tactics for successful business negotiations."
+      },
+      {
+        title: "Digital Marketing Essentials",
+        description: "Explore SEO, social media marketing, and online advertising basics."
+      },
+      {
+        title: "Entrepreneurial Mindset",
+        description: "Cultivate mindset habits that foster resilience and creativity."
+      },
+      {
+        title: "Scaling Your Business",
+        description: "Learn strategies to grow your business sustainably."
+      }
+    ];
+
+    // Функция для отрисовки курсов
+    function renderCourses(courses) {
+      courseContainer.innerHTML = ''; // очищаем контейнер перед заполнением
+
+      courses.forEach(course => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.title = course.title;
+
+        card.innerHTML = `
+          <h3>${course.title}</h3>
+          <p>${course.description}</p>
+          <div class="buttons">
+            <button class="save">Сохранить</button>
+          </div>
+        `;
+
+        courseContainer.appendChild(card);
+      });
+
+      // Навешиваем обработчики на кнопки "Сохранить"
+      document.querySelectorAll('.save').forEach(button => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.card');
+          const title = card.dataset.title;
+
+          let savedCourses = JSON.parse(localStorage.getItem('savedCourses')) || [];
+          if (!savedCourses.includes(title)) {
+            savedCourses.push(title);
+            localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+          }
+
+          toast.textContent = `"${title}" сохранён!`;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+      });
+    }
+
+    // Отрисовываем курсы для Business & Entrepreneurship
+    renderCourses(coursesBusiness);
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Сохранённые курсы</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #020312;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #0d050e;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 40px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin: 20px;
+      color: #4CAF50;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #e74c3c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 12px;
+      transition: background-color 0.3s;
+    }
+
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+
+    .no-courses {
+      color: white;
+      font-size: 18px;
+      text-align: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Сохранённые курсы</h1>
+  <a href="index.html">Главное меню</a>
+  <button onclick="history.back()" style="margin: 20px; padding: 10px 20px; font-weight: bold; border-radius: 8px; background: #4CAF50; color: white; border: none; cursor: pointer;">
+    ← Назад
+  </button>
+  
+
+
+  <div class="container" id="savedContainer"></div>
+
+  <script>
+    const savedContainer = document.getElementById('savedContainer');
+
+    const courseDescriptions = {
+      "HTML с нуля": "Полный курс по основам HTML.",
+      "CSS для начинающих": "Изучаем стили для сайтов с нуля.",
+      "JavaScript база": "Основы программирования на JavaScript.",
+      "React с практикой": "Создание интерфейсов с React.",
+      "Vue 3 мастер-класс": "Современный фреймворк Vue 3.",
+      "Python основы": "Введение в Python.",
+      "Python для анализа данных": "Использование Python для анализа больших данных.",
+      "Java с нуля": "Учимся программировать на Java с нуля.",
+      "Android разработка": "Создание мобильных приложений для Android.",
+      "iOS на Swift": "Разработка приложений для iOS с использованием Swift.",
+      "C++ для игр": "Создание игр с помощью C++.",
+      "C# и Unity": "Разработка игр на Unity с использованием C#.",
+      "SQL и базы данных": "Управление базами данных с помощью SQL.",
+      "PHP и Laravel": "Создание веб-приложений с PHP и Laravel.",
+      "Node.js backend": "Создание серверной части на Node.js.",
+      "TypeScript практикум": "Изучаем TypeScript для более безопасного JS.",
+      "DevOps и Docker": "Автоматизация и контейнеризация приложений.",
+      "Git и GitHub": "Управление версиями с Git и GitHub.",
+      "UI/UX дизайн": "Основы дизайна пользовательских интерфейсов.",
+      "Figma в дизайне": "Работа в Figma для создания прототипов.",
+      "WordPress создание сайтов": "Создание сайтов на WordPress.",
+      "Кибербезопасность": "Основы защиты данных и информационной безопасности.",
+      "Искусственный интеллект": "Введение в искусственный интеллект и нейросети.",
+      "Машинное обучение": "Методы и алгоритмы машинного обучения.",
+      "Data Science": "Анализ данных и визуализация.",
+      "SMM и маркетинг": "Продвижение в социальных сетях и маркетинг.",
+      "Бизнес и стартапы": "Запуск и развитие собственного бизнеса.",
+      "Продажи и клиенты": "Техники эффективных продаж и работы с клиентами.",
+      "Финансовая грамотность": "Управление личными финансами.",
+      "Личностный рост": "Развитие навыков и личностный рост.",
+      "Английский для IT": "Английский язык для IT-специалистов."
+    };
+
+    function renderSavedCourses() {
+      savedContainer.innerHTML = ''; // очистка
+
+      const savedCourses = JSON.parse(localStorage.getItem('savedCourses')) || [];
+
+      if (savedCourses.length === 0) {
+        savedContainer.innerHTML = '<p class="no-courses">У вас нет сохранённых курсов.</p>';
+        return;
+      }
+
+      savedCourses.forEach(title => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.title = title;
+
+        const description = courseDescriptions[title] || 'Описание курса отсутствует.';
+
+        card.innerHTML = `
+          <h3>${title}</h3>
+          <p>${description}</p>
+          <button class="delete-btn">Удалить</button>
+        `;
+
+        savedContainer.appendChild(card);
+
+        // Добавляем обработчик удаления для этой кнопки
+        const deleteBtn = card.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', () => {
+          removeCourse(title);
+        });
+      });
+    }
+
+    function removeCourse(title) {
+      let savedCourses = JSON.parse(localStorage.getItem('savedCourses')) || [];
+      savedCourses = savedCourses.filter(course => course !== title);
+      localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+      renderSavedCourses(); // обновляем отображение
+    }
+
+    // Запускаем отрисовку при загрузке страницы
+    renderSavedCourses();
+  </script>
+
+</body>
+</html>

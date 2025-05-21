@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Курсы</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #020312;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #0d050e;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 40px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+
+    .save {
+      background-color: #f0c14b;
+      color: #333;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Все курсы</h1>
+  <a href="saved.html" style="display:block; text-align:center; margin-bottom: 20px; font-weight: bold; color: #4CAF50;"> Перейти к сохранённым курсам</a>
+
+  <div class="container" id="courseContainer"></div>
+  <div class="toast" id="toast">Сохранено</div>
+
+  <script>
+    const courseContainer = document.getElementById('courseContainer');
+    const toast = document.getElementById('toast');
+
+    const coursesDesign = [
+      {
+        title: "Graphic Design Basics",
+        description: "Learn the fundamental principles and tools of graphic design."
+      },
+      {
+        title: "Digital Illustration",
+        description: "Create beautiful digital illustrations using popular software."
+      },
+      {
+        title: "UX/UI Design",
+        description: "Learn how to design user-friendly and attractive interfaces."
+      },
+      {
+        title: "Photography for Beginners",
+        description: "Master composition, lighting, and camera basics."
+      },
+      {
+        title: "Logo Design",
+        description: "Create unique and memorable logos."
+      },
+      {
+        title: "Creative Thinking",
+        description: "Develop skills for out-of-the-box idea generation."
+      },
+      {
+        title: "Animation and Motion Design",
+        description: "Learn to create animations for video and web."
+      },
+      {
+        title: "Typography",
+        description: "Dive into the art of working with fonts and text."
+      },
+      {
+        title: "Color Theory for Designers",
+        description: "Understand how colors affect perception and emotions."
+      },
+      {
+        title: "Introduction to 3D Design",
+        description: "Explore the basics of modeling and visualization in 3D."
+      }
+    ];
+
+    function renderCourses(courses) {
+      courseContainer.innerHTML = ''; // clear container
+
+      courses.forEach(course => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.title = course.title;
+
+        card.innerHTML = `
+          <h3>${course.title}</h3>
+          <p>${course.description}</p>
+          <div class="buttons">
+            <button class="save">Save</button>
+          </div>
+        `;
+
+        courseContainer.appendChild(card);
+      });
+
+      document.querySelectorAll('.save').forEach(button => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.card');
+          const title = card.dataset.title;
+
+          let savedCourses = JSON.parse(localStorage.getItem('savedCourses')) || [];
+          if (!savedCourses.includes(title)) {
+            savedCourses.push(title);
+            localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+          }
+
+          toast.textContent = `"${title}" saved!`;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        });
+      });
+    }
+
+    renderCourses(coursesDesign);
+  </script>
+
+</body>
+</html>

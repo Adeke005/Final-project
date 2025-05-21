@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Курсы</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #020312;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #0d050e;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 40px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+
+    .save {
+      background-color: #f0c14b;
+      color: #333;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Все курсы</h1>
+  <a href="saved.html" style="display:block; text-align:center; margin-bottom: 20px; font-weight: bold; color: #4CAF50;"> Перейти к сохранённым курсам</a>
+
+  <div class="container" id="courseContainer"></div>
+  <div class="toast" id="toast">Сохранено</div>
+
+  <script>
+    const courseContainer = document.getElementById('courseContainer');
+    const toast = document.getElementById('toast');
+
+    const courses = [
+  {
+    title: "Body Language and Presence",
+    description: "Master non-verbal communication to improve your personal and professional impact."
+  },
+  {
+    title: "Career Planning and Growth",
+    description: "Set clear career goals and build a path toward long-term success."
+  },
+  {
+    title: "Conflict Resolution Skills",
+    description: "Learn strategies to resolve conflicts constructively and maintain healthy relationships."
+  },
+  {
+    title: "Creative Problem Solving",
+    description: "Boost your creativity to solve problems in innovative and effective ways."
+  },
+  {
+    title: "Critical Thinking Skills",
+    description: "Develop logical thinking and sound reasoning to make better decisions."
+  },
+  {
+    title: "Decision Making Techniques",
+    description: "Learn proven methods to make smarter, faster, and more confident decisions."
+  },
+  {
+    title: "Developing Growth Mindset",
+    description: "Shift your mindset to embrace challenges and continue learning."
+  },
+  {
+    title: "Digital Minimalism and Focus",
+    description: "Reduce digital distractions and increase focus in a tech-heavy world."
+  },
+  {
+    title: "Effective Communication Skills",
+    description: "Enhance your ability to speak, listen, and connect with others."
+  },
+  {
+    title: "Emotional Intelligence Mastery",
+    description: "Understand and manage emotions in yourself and others for stronger relationships."
+  },
+  {
+    title: "Emotional Self-Regulation",
+    description: "Build techniques to control emotional responses in difficult situations."
+  },
+  {
+    title: "Goal Setting and Motivation",
+    description: "Learn how to set meaningful goals and stay motivated to achieve them."
+  },
+  {
+    title: "Gratitude and Positive Psychology",
+    description: "Practice daily gratitude and develop a positive mindset."
+  },
+  {
+    title: "Habits of Highly Effective People",
+    description: "Adopt life-changing habits that drive productivity and success."
+  },
+  {
+    title: "Interpersonal Skills for Success",
+    description: "Build stronger personal and workplace relationships through better interactions."
+  },
+  {
+    title: "Journaling for Self-Discovery",
+    description: "Use writing as a tool to understand yourself and grow personally."
+  },
+  {
+    title: "Leadership for Beginners",
+    description: "Learn the fundamentals of leading yourself and others effectively."
+  },
+  {
+    title: "Mindfulness and Meditation",
+    description: "Reduce stress and increase awareness through simple mindfulness practices."
+  },
+  {
+    title: "Negotiation Skills",
+    description: "Learn to negotiate with confidence and fairness in any situation."
+  },
+  {
+    title: "Overcoming Procrastination",
+    description: "Identify causes of procrastination and learn tools to beat it."
+  },
+  {
+    title: "Personal Branding Basics",
+    description: "Define and promote your unique personal identity in your career."
+  },
+  {
+    title: "Personal Finance Fundamentals",
+    description: "Manage your money better and plan for financial security."
+  },
+  {
+    title: "Public Speaking Essentials",
+    description: "Gain the confidence and skill to speak clearly and powerfully in public."
+  },
+  {
+    title: "Resilience and Mental Strength",
+    description: "Build the mental toughness to overcome obstacles and bounce back from setbacks."
+  },
+  {
+    title: "Self-Discipline Techniques",
+    description: "Strengthen your willpower and stay committed to your goals."
+  },
+  {
+    title: "Speed Reading and Memory",
+    description: "Read faster and improve your memory with practical techniques."
+  },
+  {
+    title: "Stress Management Strategies",
+    description: "Find healthy ways to manage stress and stay balanced."
+  },
+  {
+    title: "Time Management & Productivity",
+    description: "Master your time and boost productivity using proven systems."
+  },
+  {
+    title: "Work-Life Balance Essentials",
+    description: "Create harmony between your work and personal life."
+  }
+];
+
+
+courses.forEach(course => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.title = course.title;
+
+  card.innerHTML = `
+    <h3>${course.title}</h3>
+    <p>${course.description}</p>
+    <div class="buttons">
+      <button class="save">Сохранить</button>
+    </div>
+  `;
+
+  courseContainer.appendChild(card);
+});
+
+
+    // Обработчики событий "Сохранить"
+    document.querySelectorAll('.save').forEach(button => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.card');
+        const title = card.dataset.title;
+
+        let savedCourses = JSON.parse(localStorage.getItem('savedCourses')) || [];
+        if (!savedCourses.includes(title)) {
+          savedCourses.push(title);
+          localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+        }
+
+        toast.textContent = `"${title}" сохранён!`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    });
+    document.querySelectorAll('.buy').forEach(button => {
+   button.addEventListener('click', () => {
+     const card = button.closest('.card');
+     const courseTitle = card.dataset.title;
+
+     // Получаем корзину из localStorage, если она есть, или создаём новую
+     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+     // Добавляем курс в корзину, если его там нет
+     if (!cart.includes(courseTitle)) {
+       cart.push(courseTitle);
+       localStorage.setItem('cart', JSON.stringify(cart));
+     }
+
+     // Показываем уведомление
+     toast.textContent = `"${courseTitle}" добавлен в корзину!`;
+     toast.classList.add('show');
+     setTimeout(() => toast.classList.remove('show'), 2000);
+
+     // Опционально можно сразу перенаправить пользователя на страницу корзины
+     // window.location.href = 'cart.html'; // если хочешь сразу перенаправить
+   });
+ });
+
+  </script>
+
+</body>
+</html>

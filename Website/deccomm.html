@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Курсы</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #020312;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #0d050e;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 40px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      width: 250px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .buttons {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .buttons button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+
+    .save {
+      background-color: #f0c14b;
+      color: #333;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Все курсы</h1>
+  <a href="saved.html" style="display:block; text-align:center; margin-bottom: 20px; font-weight: bold; color: #4CAF50;"> Перейти к сохранённым курсам</a>
+
+  <div class="container" id="courseContainer"></div>
+  <div class="toast" id="toast">Сохранено</div>
+
+  <script>
+    const courseContainer = document.getElementById('courseContainer');
+    const toast = document.getElementById('toast');
+
+    const coursesIT = [
+  {
+    title: "Introduction to Programming",
+    description: "Learn the basics of programming using Python."
+  },
+  {
+    title: "JavaScript for Beginners",
+    description: "Understand core JavaScript concepts and build interactive websites."
+  },
+  {
+    title: "Advanced React",
+    description: "Master React.js to build scalable front-end applications."
+  },
+  {
+    title: "Node.js and Express",
+    description: "Create backend services and APIs with Node.js and Express framework."
+  },
+  {
+    title: "Data Structures and Algorithms",
+    description: "Learn essential data structures and algorithms for efficient coding."
+  },
+  {
+    title: "Database Fundamentals",
+    description: "Understand relational and non-relational databases, and how to use SQL."
+  },
+  {
+    title: "Cybersecurity Basics",
+    description: "Learn how to protect systems and data from cyber threats."
+  },
+  {
+    title: "DevOps Essentials",
+    description: "Get started with DevOps practices including CI/CD and containerization."
+  },
+  {
+    title: "Mobile App Development",
+    description: "Build native Android and iOS apps with modern frameworks."
+  },
+  {
+    title: "Cloud Computing with AWS",
+    description: "Explore cloud services and deployment on Amazon Web Services."
+  }
+];
+
+coursesIT.forEach(course => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.title = course.title;
+
+  card.innerHTML = `
+    <h3>${course.title}</h3>
+    <p>${course.description}</p>
+    <div class="buttons">
+      <button class="save">Сохранить</button>
+    </div>
+  `;
+
+  courseContainer.appendChild(card);
+});
+
+
+
+    // Обработчики событий "Сохранить"
+    document.querySelectorAll('.save').forEach(button => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.card');
+        const title = card.dataset.title;
+
+        let savedCourses = JSON.parse(localStorage.getItem('savedCourses')) || [];
+        if (!savedCourses.includes(title)) {
+          savedCourses.push(title);
+          localStorage.setItem('savedCourses', JSON.stringify(savedCourses));
+        }
+
+        toast.textContent = `"${title}" сохранён!`;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      });
+    });
+    document.querySelectorAll('.buy').forEach(button => {
+   button.addEventListener('click', () => {
+     const card = button.closest('.card');
+     const courseTitle = card.dataset.title;
+
+     // Получаем корзину из localStorage, если она есть, или создаём новую
+     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+     // Добавляем курс в корзину, если его там нет
+     if (!cart.includes(courseTitle)) {
+       cart.push(courseTitle);
+       localStorage.setItem('cart', JSON.stringify(cart));
+     }
+
+     // Показываем уведомление
+     toast.textContent = `"${courseTitle}" добавлен в корзину!`;
+     toast.classList.add('show');
+     setTimeout(() => toast.classList.remove('show'), 2000);
+
+     // Опционально можно сразу перенаправить пользователя на страницу корзины
+     // window.location.href = 'cart.html'; // если хочешь сразу перенаправить
+   });
+ });
+
+  </script>
+
+</body>
+</html>

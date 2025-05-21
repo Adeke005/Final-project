@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scroll Website</title>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCsnj1k0kpuHh5Z0-HWHGRYg3COqMmAaBc&callback=initMap&v=weekly"
+    async
+    defer
+></script>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+      integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc"
+      crossorigin="anonymous"
+    />
+    
+
+
+  </head>
+  <body>
+    <!--  Section -->
+    <nav class="heade" id="home">
+      <div class="heade__container">
+        <a href="#home" id="heade__logo">Deccom</a>
+        <div class="heade__toggle" id="mobile-menu">
+          <span class="bar"></span> <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <ul class="heade__menu">
+          <li class="heade__item">
+            <a href="#home" class="heade__links" id="home-page">Home</a>
+          </li>
+          <li class="heade__item">
+            <a href="#about" class="heade__links" id="about-page">About</a>
+          </li>
+          <li class="heade__item">
+            <a href="#services" class="heade__links" id="services-page"
+              >Cources</a
+            >
+          </li>
+          <li class="heade__btn">
+            <a href="signup.html" class="button" id="signup">Sign Up</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+
+ 
+
+
+
+   
+    
+    <!-- Courses Section -->
+<div class="main" id="courses">
+  <div class="main__container">
+    <div class="main__content">
+      <h1>Unlock Your Potential with</h1>
+      <h2>Our Courses</h2>
+      <p>
+        Discover a world of knowledge at your fingertips. Whether you're looking to
+        advance your career or explore a new hobby, our diverse range of online
+        courses has something for everyone.
+      </p>
+      <button class="main__btn"><a href="signup.html">Get Started</a></button>
+    </div>
+    <div class="main__img--container">
+      <div class="slider__container">
+        <img src="image/i (43).webp" class="slider__image active" alt="Course 1" />
+        <img src="image/картины для сайта про продажу курсов (1).png" class="slider__image" alt="Course 2" />
+        <img src="image/картины для сайта про продажу курсов (2).png" class="slider__image" alt="Course 3" />
+        <div class="slider__controls">
+          <button onclick="prevSlide()">&#10094;</button>
+          <button onclick="nextSlide()">&#10095;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- About Section -->
+    <div class="main" id="about">
+      <div class="main__container">
+        <div class="main__img--container">
+          <div class="main__img--card"><i class="fas fa-layer-group"></i></div>
+        </div>
+        <div class="main__content">
+          <h1>What do we do?</h1>
+          <h2></h2>
+          <p>to learn more about our services</p>
+          <button class="main__btn"><a href="aboutus.html">About Us</a></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Services Section -->
+    <div class="services" id="services">
+      <h1>Our Courses</h1>
+    
+      <div id="servicesSlider" class="services__wrapper overflow-x-auto whitespace-nowrap scroll-smooth">
+        <div class="services__card inline-block">
+          <img src="image/i (44).jpg" alt="Custom programs" >
+          <h2>Personal Development</h2>
+          <p></p>
+          <div class="services__btn">
+            <button><a href="deccom.html">Get Started</a></button>
+          </div>
+        </div>
+      
+        <div class="services__card inline-block">
+          <img src="image/i (45).webp" alt="Mobile ready" >
+          <h2> IT & Programming</h2>
+          <p></p>
+          <div class="services__btn">
+            <button><a href="deccomm.html">Get Started</a></button>
+          </div>
+        </div>
+      
+        <div class="services__card inline-block">
+          <img src="image/i (47).jpg" alt="Management gradients" >
+          <h2>Business & Entrepreneurship</h2>
+          <p></p>
+          <div class="services__btn">
+            <button><a href="decom.html">Get Started</a></button>
+          </div>
+        </div>
+      
+        <div class="services__card inline-block">
+          <img src="image/i (48).webp" alt="Infinite choices" >
+          <h2>Design & Creativity</h2>
+          <p></p>
+          <div class="services__btn">
+            <button><a href="deckom.html">Get Started</a></button>
+          </div>
+        </div>
+      </div>
+      
+        
+        <!-- Добавь ещё карточки по желанию -->
+      </div>
+    </div>
+    
+    <!-- Features Section -->
+    <div class="main" id="Features">
+      <div class="main__container">
+        <div class="main__content">
+          <h1>Join Our Cources</h1>
+          <h2>Sign Up Today</h2>
+          <p>See what makes us different</p>
+          <button class="main__btn"><a href="signup.html">Sign Up</a></button>
+        </div>
+        <div class="main__img--container">
+          <div class="main__img--card" id="card-2">
+            <i class="fas fa-users"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    
+    <!-- Footer Section -->
+    <div class="footer__container">
+      <div class="footer__links">
+        <div class="footer__link--wrapper">
+          
+          <div class="footer__link--items">
+            <h2>Contact Us</h2>
+            <a href="tel:+77006740274">Contact</a> <a href="mailto:adilet.dzholdasbai@narxoz.kz">Support</a>
+           
+          </div>
+        </div>
+        <div class="footer__link--wrapper">
+          <div class="footer__link--items">
+            <h2>Videos</h2>
+            <a href="https://www.youtube.com/channel/UCCZBv-FBNdxoE87xae9eC6g">Submit Video</a> <a href="https://stepik.org/catalog">Ambassadors</a>
+            
+          </div>
+          <div class="footer__link--items">
+            <h2>Social Media</h2>
+            <a href="https://www.instagram.com/ElonMusk/?hl=en">Instagram</a> <a href="https://www.facebook.com/groups/ElonMusk/">Facebook</a>
+            <a href="https://www.youtube.com/channel/UCCZBv-FBNdxoE87xae9eC6g">Youtube</a> <a href="https://x.com/elonmusk">Twitter</a>
+          </div>
+        </div>
+      </div>
+      <section class="social__media">
+        <div class="social__media--wrap">
+          <div class="footer__logo">
+            <a href="/" id="footer__logo">Deccom</a>
+          </div>
+          <p class="website__rights">© Deccom All rights reserved</p>
+          <div class="social__icons">
+            <a href="https://www.facebook.com/groups/ElonMusk/" class="social__icon--link" target="_blank"
+              ><i class="fab fa-facebook"></i
+            ></a>
+            <a href="/" class="social__icon--link"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="https://www.youtube.com/channel/UCCZBv-FBNdxoE87xae9eC6g" class="social__icon--link"
+              ><i class="fab fa-youtube"></i
+            ></a>
+            <a href="/" class="social__icon--link"
+              ><i class="fab fa-linkedin"></i
+            ></a>
+            <a href="https://x.com/elonmusk" class="social__icon--link"
+              ><i class="fab fa-twitter"></i
+            ></a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
